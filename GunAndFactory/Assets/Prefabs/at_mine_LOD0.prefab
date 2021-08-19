@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 491850}
   - component: {fileID: 3300726}
   - component: {fileID: 2330356}
+  - component: {fileID: 2804571293352586069}
+  - component: {fileID: 5471728007789879877}
   m_Layer: 0
   m_Name: at_mine_LOD0
   m_TagString: Player
@@ -83,3 +85,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2804571293352586069
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119916}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.26543477, y: 0.2135571, z: 0.25967598}
+  m_Center: {x: 0.0050810426, y: 0.0607706, z: -0.0061914623}
+--- !u!114 &5471728007789879877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc96b97959f1294186aaadcff668a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
