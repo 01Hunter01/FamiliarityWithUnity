@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Transform _target;
+    //private Transform _target;
     private float _damage;
     private float _speed = 20f;
 
@@ -16,19 +16,20 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        _target = GameObject.FindGameObjectWithTag("Enemy").transform;
+       // _target = GameObject.FindGameObjectWithTag("Enemy").transform;
     }
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+        transform.Translate(transform.forward * _speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         var obj = other.GetComponent<ITakeDamage>();
         if (obj != null)
-            obj.Boom(_damage);
+            obj.Hit(_damage);
         Destroy(gameObject);
     }
 

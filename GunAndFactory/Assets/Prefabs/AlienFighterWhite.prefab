@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 100
+  _agent: {fileID: 0}
+  _wayPoint: {fileID: 0}
 --- !u!65 &1774959663371791626
 BoxCollider:
   m_ObjectHideFlags: 0

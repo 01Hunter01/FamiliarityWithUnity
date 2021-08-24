@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,10 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     [SerializeField] Transform _spawnBullet;
     [SerializeField] private float _hp = 150;
     [SerializeField] private float _ammo = 30;
+
+    private Dictionary<string, int> _inventory;
+
+    
 
     public float speed;
     public float speedRotate;
@@ -21,6 +26,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     private void Awake()
     {
         _isFire = false;
+        _inventory = new Dictionary<string, int>();
     }
 
     
@@ -40,6 +46,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
         _isForce = Input.GetButton("Force");
         _isJump = Input.GetButton("Jump");
+        
 
     }
 
@@ -50,10 +57,12 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
         Move();
         Jump();
+        
 
         transform.Rotate(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * speedRotate, 0);
 
     }
+
 
     private void Jump()
     {
@@ -70,7 +79,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
     private void Fire()
     {
-        GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, Quaternion.identity);
+        GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, _spawnBullet.rotation);
 
         bullet.GetComponent<Bullet>().Init(10f, 4f);
 
@@ -117,5 +126,47 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         _ammo += ammo;
     }
 
-    
+
+    internal bool IsItem(string item)
+    {
+        return _inventory.ContainsKey(item);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BlueKey"))
+        {
+            if (_inventory.ContainsKey("BlueKey"))
+                _inventory["Bluekey"] += 1;
+            else
+            {
+                _inventory.Add("BlueKey", 1);
+                Destroy(other.gameObject);
+            }
+        }
+
+        if (other.CompareTag("RedKey"))
+        {
+            if (_inventory.ContainsKey("RedKey"))
+                _inventory["RedKey"] += 1;
+            else
+            {
+                _inventory.Add("RedKey", 2);
+                Destroy(other.gameObject);
+            }
+        }
+
+        if (other.CompareTag("BrownKey"))
+        {
+            if (_inventory.ContainsKey("BrownKey"))
+                _inventory["BrownKey"] += 1;
+            else
+            {
+                _inventory.Add("BrownKey", 3);
+                Destroy(other.gameObject);
+            }
+        }
+    }
+
+
 }
