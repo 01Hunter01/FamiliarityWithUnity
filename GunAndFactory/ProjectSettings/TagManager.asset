@@ -8,6 +8,7 @@ TagManager:
   - BlueKey
   - RedKey
   - BrownKey
+  - Ground
   layers:
   - Default
   - TransparentFX

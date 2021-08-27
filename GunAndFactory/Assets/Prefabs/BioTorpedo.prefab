@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 23197084716274270}
   - component: {fileID: 5876310153839320074}
   - component: {fileID: 7450408274012834816}
-  - component: {fileID: 2230287088537076081}
-  - component: {fileID: 4072723876991023231}
   m_Layer: 0
   m_Name: BioTorpedo
   m_TagString: Enemy
@@ -115,30 +113,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &2230287088537076081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906374043378120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba0ded918e76164399f7c3cd6e04af4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 100
---- !u!114 &4072723876991023231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906374043378120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aadfb86501e4a8248a2e363e5038cf31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 1
-  angle: 0

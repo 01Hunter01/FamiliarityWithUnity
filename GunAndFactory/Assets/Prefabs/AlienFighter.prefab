@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 23048021916812000}
   - component: {fileID: 2596144072904524803}
   - component: {fileID: 5013599524697115466}
-  - component: {fileID: 6283563690807455680}
-  - component: {fileID: 2337496868343933261}
   m_Layer: 0
   m_Name: AlienFighter
   m_TagString: Untagged
@@ -115,32 +113,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &6283563690807455680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458391615630120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba0ded918e76164399f7c3cd6e04af4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 100
-  _agent: {fileID: 0}
-  _wayPoint: {fileID: 0}
---- !u!114 &2337496868343933261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458391615630120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aadfb86501e4a8248a2e363e5038cf31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 1
-  angle: 0

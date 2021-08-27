@@ -10,6 +10,8 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     [SerializeField] private float _hp = 150;
     [SerializeField] private float _ammo = 30;
 
+    private Rigidbody _rb;
+
     private Dictionary<string, int> _inventory;
 
     
@@ -21,21 +23,21 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     private bool _isJump;
     private bool _isForce;
     private bool _isFire;
+    private bool _isGround;
     private Vector3 _direction;
 
     private void Awake()
     {
         _isFire = false;
         _inventory = new Dictionary<string, int>();
+        _rb = GetComponent<Rigidbody>();
     }
 
-    
     void Start()
     {
         
     }
 
-   
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -45,9 +47,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         _direction.z = Input.GetAxis("Vertical");
 
         _isForce = Input.GetButton("Force");
-        _isJump = Input.GetButton("Jump");
-        
-
+        _isJump = Input.GetButton("Jump") && _isGround;
     }
 
     private void FixedUpdate()
@@ -58,23 +58,24 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         Move();
         Jump();
         
-
-        transform.Rotate(0, Input.GetAxis("Mouse X") * Time.fixedDeltaTime * speedRotate, 0);
-
+        transform.Rotate(0, Input.GetAxis("Mouse X") * speedRotate * Time.fixedDeltaTime, 0);
+        //_rb.AddTorque(0, Input.GetAxis("Mouse X") * speedRotate, 0, ForceMode.Force);
     }
 
 
     private void Jump()
     {
         float height = _isJump ? _direction.y = heightJump : _direction.y = 0;
-        transform.Translate(_direction * height * Time.fixedDeltaTime);
+        //transform.Translate(_direction * height * Time.fixedDeltaTime);
+        _rb.AddForce(new Vector3 (0, height, 0), ForceMode.Impulse);
     }
 
     private void Move()
     {
         float s = (_isForce) ? speed * 2f : speed;
 
-        transform.Translate(_direction.normalized * s * Time.fixedDeltaTime);
+        //transform.Translate(_direction.normalized * s * Time.fixedDeltaTime);
+        _rb.AddForce(_direction.normalized * s, ForceMode.Force);
     }
 
     private void Fire()
@@ -95,7 +96,9 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
     public void Hit(float damage)
     {
-        throw new System.NotImplementedException();
+        _hp -= damage;
+        if (_hp <= 0)
+            Destroy(gameObject);
     }
 
     public void HitTrapFloor(float damage)
@@ -168,5 +171,16 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Ground")
+            _isGround = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "Ground")
+            _isGround = false;
+    }
 
 }
