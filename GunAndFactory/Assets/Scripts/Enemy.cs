@@ -13,9 +13,9 @@ public class Enemy : MonoBehaviour, ITakeDamage
     private Transform _target;
 
     [SerializeField] private float _hp = 100;
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _speed = 2f;
     [SerializeField] private float _speedRotate = 4f;
-    
+
 
     private bool _isFire;
     int m_CurrentWaypointIndex;
@@ -29,20 +29,27 @@ public class Enemy : MonoBehaviour, ITakeDamage
     {
         _target = FindObjectOfType<Player>().transform;
 
-        _agent.SetDestination(_wayPoints[0].position);
+        //_agent.SetDestination(_wayPoints[0].position);
 
         
     }
 
     private void Update()
     {
-        if (Vector3.Distance(_target.position, transform.position) <= 15f)
+        if (Vector3.Distance(_target.position, transform.position) <= 12f)
         {
+            
             Vector3 dir = (_target.position - transform.position);
             Vector3 stepDir = Vector3.RotateTowards(transform.forward, dir, _speedRotate * Time.deltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(stepDir);
 
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            StopCoroutine(Patrol());
+
+            var enemyPosition = transform.position;
+            
+
+            transform.position = Vector3.MoveTowards(enemyPosition, _target.position, _speed * Time.deltaTime);
+
         }
         else
         {
@@ -52,7 +59,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
         
         if(Physics.Raycast(_spawnBullet.position, _spawnBullet.forward, out RaycastHit hit))
         {
-            if (hit.distance <= 15f)
+            if (hit.distance <= 12f && hit.collider.CompareTag("Player"))
             {
                 _isFire = true;
                 Fire();
@@ -98,7 +105,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
     {
         GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, _spawnBullet.rotation);
 
-        bullet.GetComponent<Bullet>().Init(5f, 15f);
+        bullet.GetComponent<Bullet>().Init(5f, 4f);
 
         _isFire = false;
     }
@@ -113,7 +120,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
             _agent.SetDestination(_wayPoints[m_CurrentWaypointIndex].position);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
 
     }
 }

@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
         var obj = other.GetComponent<ITakeDamage>();
         if (obj != null)
             obj.Hit(_damage);
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         var obj = other.gameObject.GetComponent<ITakeDamage>();
         if (obj != null)
             obj.Hit(_damage);
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
 }

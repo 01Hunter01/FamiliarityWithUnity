@@ -324,6 +324,7 @@
 "Assets/Scripts/Button_Secret_Door.cs"
 "Assets/Scripts/Enemy.cs"
 "Assets/Scripts/EnemySpawn.cs"
+"Assets/Scripts/FollowCamera.cs"
 "Assets/Scripts/HP.cs"
 "Assets/Scripts/IHealthAmmo.cs"
 "Assets/Scripts/ITakeDamage.cs"
