@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 {
     [SerializeField] GameObject _bulletPrefab;
     [SerializeField] Transform _spawnBullet;
-    [SerializeField] private float _hp = 150;
+    [SerializeField] private float _hp = 100;
     [SerializeField] private float _ammo = 30;
     [SerializeField] Animator _anim;
 
@@ -115,6 +115,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void Boom(float damage)
     {
         _hp -= damage;
+        HealthBar.AdjustCurrentHP(-_hp);
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
@@ -124,6 +125,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void Hit(float damage)
     {
         _hp -= damage;
+        HealthBar.AdjustCurrentHP(-_hp);
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
@@ -133,7 +135,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void HitTrapFloor(float damage)
     {
         _hp -= damage;
-
+        HealthBar.AdjustCurrentHP(-_hp);
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
@@ -143,7 +145,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void HitTrapWall(float damage)
     {
         _hp -= damage;
-
+        HealthBar.AdjustCurrentHP(-_hp);
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
@@ -156,6 +158,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void Health(float health)
     {
         _hp += health;
+        HealthBar.AdjustCurrentHP(_hp);
     }
 
     public void Ammo(float ammo)

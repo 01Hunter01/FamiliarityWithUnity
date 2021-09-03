@@ -336,6 +336,8 @@
 "Assets/Scripts/TrapFloor.cs"
 "Assets/Scripts/TrapWall.cs"
 "Assets/Scripts/TriggerTrapWall.cs"
+"Assets/Scripts/UI/Menu.cs"
+"Assets/Scripts/UI/Pause.cs"
 "Assets/Scripts/WhileCycle_Example.cs"
 -langversion:8.0
 

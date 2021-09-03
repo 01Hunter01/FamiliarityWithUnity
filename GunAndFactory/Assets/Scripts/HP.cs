@@ -5,7 +5,7 @@ using UnityEngine;
 public class HP : MonoBehaviour
 {
     
-    private float _hp = 50;
+    private float _hp = 25;
 
     private void OnTriggerEnter(Collider other)
     {
