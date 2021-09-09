@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class TrapFloor : MonoBehaviour
 {
-    private float _damage = 20f;
+    private float _damage = 15f;
+    private Animator _anim;
 
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _anim = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         var obj = other.GetComponent<ITakeDamage>();
+        _anim.SetBool("isSpikeUp", true);
         if (obj != null)
             obj.HitTrapFloor(_damage);
-        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _anim.SetBool("isSpikeUp", false);
     }
 }

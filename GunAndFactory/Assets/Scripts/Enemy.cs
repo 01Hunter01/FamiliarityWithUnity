@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
     [SerializeField] private Transform[] _wayPoints;
     private Transform _target;
 
-    [SerializeField] private float _hp = 100;
+    [SerializeField] private float _hp = 50;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _speedRotate = 4f;
 
@@ -38,7 +38,8 @@ public class Enemy : MonoBehaviour, ITakeDamage
     {
         if (Vector3.Distance(_target.position, transform.position) <= 12f)
         {
-            
+            _isFire = true;
+
             Vector3 dir = (_target.position - transform.position);
             Vector3 stepDir = Vector3.RotateTowards(transform.forward, dir, _speedRotate * Time.deltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(stepDir);
@@ -53,27 +54,19 @@ public class Enemy : MonoBehaviour, ITakeDamage
         }
         else
         {
+            _isFire = false;
             StartCoroutine(Patrol());
         }
         
         
         if(Physics.Raycast(_spawnBullet.position, _spawnBullet.forward, out RaycastHit hit))
         {
-            if (hit.distance <= 12f && hit.collider.CompareTag("Player"))
+            if (hit.distance <= 12f && hit.collider.CompareTag("Player") && _isFire)
             {
-                _isFire = true;
                 Fire();
             }
-            else
-            {
-                _isFire = false;
-            }
-        }
-
-        
             
-
-        
+        }
     }
 
     public void Boom(float damage)
@@ -93,7 +86,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
 
     public void HitTrapFloor(float damage)
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public void HitTrapWall(float damage)
@@ -112,7 +105,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
 
     private IEnumerator Patrol()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         if (_agent.remainingDistance < _agent.stoppingDistance)
         {
@@ -121,6 +114,16 @@ public class Enemy : MonoBehaviour, ITakeDamage
         }
 
         yield return new WaitForSeconds(5f);
+
+    }
+
+    private IEnumerator FireCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Fire();
+
+        yield return new WaitForSeconds(3f);
 
     }
 }

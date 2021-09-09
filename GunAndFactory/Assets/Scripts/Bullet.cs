@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     //private Transform _target;
     private Rigidbody _rb;
     private float _damage;
-    [SerializeField] private float _force = 10f;
+    [SerializeField] private float _force = 5f;
 
     public void Init(float damage, float lifeTime = 0f, string tag = "")
     {

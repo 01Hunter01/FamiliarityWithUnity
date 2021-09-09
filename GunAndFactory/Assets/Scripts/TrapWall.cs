@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrapWall : MonoBehaviour
 {
     
-    private float _damage = 30;
+    private float _damage = 100;
     
     private void OnTriggerEnter(Collider other)
     {

@@ -5,16 +5,17 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     [SerializeField] private Transform _target;
-    //[SerializeField] private Transform _PosTarget;
     [SerializeField] private float _smooth = 5f;
-    // [SerializeField] private float _turnSpeed; 
+
+    //[SerializeField] private Transform _PosTarget;
+    //[SerializeField] private float _turnSpeed; 
 
     //public Vector3 offset = new Vector3(0, 8, -5);
 
     private Vector3 vel = Vector3.zero;
 
    
-    void Update()
+    void LateUpdate()
     {
         Vector3 targetPosition = _target.TransformPoint(new Vector3(0, 2, -1));
 
@@ -27,7 +28,7 @@ public class FollowCamera : MonoBehaviour
         Camera.main.transform.LookAt(vectorPosition);
 
 
-        //transform.position = Vector3.Lerp(transform.position, _Player.position + offset, Time.deltaTime * _smooth);
+        //transform.position = Vector3.Lerp(transform.position, _target.position + offset, Time.deltaTime * _smooth);
 
         //Vector3 dir = _PosTarget.position - transform.position;
         //dir.y = 0;

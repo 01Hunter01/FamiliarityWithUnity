@@ -325,7 +325,6 @@
 "Assets/Scripts/Enemy.cs"
 "Assets/Scripts/EnemySpawn.cs"
 "Assets/Scripts/FollowCamera.cs"
-"Assets/Scripts/HealthBar.cs"
 "Assets/Scripts/HP.cs"
 "Assets/Scripts/IHealthAmmo.cs"
 "Assets/Scripts/ITakeDamage.cs"
@@ -336,10 +335,13 @@
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/TrapFloor.cs"
 "Assets/Scripts/TrapWall.cs"
-"Assets/Scripts/TriggerTrapWall.cs"
+"Assets/Scripts/Triggers/LevelCompleteTrigger.cs"
+"Assets/Scripts/Triggers/ReverbTrigger.cs"
+"Assets/Scripts/Triggers/TriggerTrapWall.cs"
+"Assets/Scripts/UI/AudioManager.cs"
 "Assets/Scripts/UI/Menu.cs"
+"Assets/Scripts/UI/MuteAll.cs"
 "Assets/Scripts/UI/Pause.cs"
-"Assets/Scripts/WhileCycle_Example.cs"
 -langversion:8.0
 
 /deterministic

@@ -1,25 +1,29 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 {
-    [SerializeField] GameObject _bulletPrefab;
-    [SerializeField] Transform _spawnBullet;
-    [SerializeField] private float _hp = 100;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private Image HealthBar;
+    [SerializeField] private Image _gameOver;
+    [SerializeField] private float _hp;
     [SerializeField] private float _ammo = 30;
-    [SerializeField] Animator _anim;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private AudioSource _audio;
+    [SerializeField] private AudioClip[] _footsteps;
+
 
     private Rigidbody _rb;
 
     private Dictionary<string, int> _inventory;
 
-    
-
-    public float speed;
-    public float speedRotate;
-    public float heightJump;
+    [SerializeField] private float speed;
+    [SerializeField] private float speedRotate;
+    [SerializeField] private float heightJump;
 
     private bool _isJump;
     private bool _isForce;
@@ -33,7 +37,9 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         
         _inventory = new Dictionary<string, int>();
         _anim = GetComponent<Animator>();
-       
+        _audio = GetComponent<AudioSource>();
+        
+
     }
 
     void Start()
@@ -44,8 +50,8 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
     void Update()
     {
+        if (_hp > 100) _hp = 100;
         
-
         _direction.x = Input.GetAxis("Horizontal");
         _direction.z = Input.GetAxis("Vertical");
 
@@ -59,39 +65,25 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
 
             if (Input.GetMouseButtonDown(0))
                 _anim.SetTrigger("Shoot");
-        }
-            
+        }  
         else
             _anim.SetBool("IsMove", true);
-
-        
     }
 
     private void FixedUpdate()
     {
-        //if (_isFire)
-        //    Fire();
-
         Move();
         Jump();
 
-
-
         float yRot = Input.GetAxisRaw("Mouse X");
-        rotationPlayer = new Vector3(0f, yRot * speedRotate, 0f);
-        _rb.MoveRotation(_rb.rotation * Quaternion.Euler(rotationPlayer));
-
-        //transform.Rotate(0, Input.GetAxis("Mouse X") * speedRotate * Time.fixedDeltaTime, 0);
-        
-
-        
+        rotationPlayer = new Vector3(0f, yRot * speedRotate * Time.fixedDeltaTime, 0f);
+        _rb.MoveRotation(_rb.rotation * Quaternion.Euler(rotationPlayer)); 
     }
 
 
     private void Jump()
     {
         float height = _isJump ? _direction.y = heightJump : _direction.y = 0;
-        //transform.Translate(_direction * height * Time.fixedDeltaTime);
         _rb.AddForce(Vector3.up * height, ForceMode.Impulse);
     }
 
@@ -99,56 +91,72 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     {
         float s = (_isForce) ? speed * 2f : speed;
 
-        //transform.Translate(_direction.normalized * s * Time.fixedDeltaTime);
-        //_rb.AddForce(_direction.normalized * s, ForceMode.Force);
+        
         Vector3 m_Input = new Vector3(_direction.x, 0f, _direction.z);
+        m_Input = transform.TransformDirection(m_Input.normalized);
         _rb.MovePosition(transform.position + m_Input * Time.fixedDeltaTime * s);
     }
 
     private void Fire()
     {
+        _audio.Play();
+
         GameObject bullet = GameObject.Instantiate(_bulletPrefab, _spawnBullet.position, _spawnBullet.rotation);
 
         bullet.GetComponent<Bullet>().Init(10f, 4f);
     }
 
+    private void Step()
+    {
+        int number = Random.Range(0, _footsteps.Length);
+        _audio.PlayOneShot(_footsteps[number]);
+    }
+
     public void Boom(float damage)
     {
         _hp -= damage;
-        HealthBar.AdjustCurrentHP(-_hp);
+        HealthBar.fillAmount = _hp * 0.01f;
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
+            StartCoroutine(Die());
+            StartCoroutine(GameOver());
         }
     }
 
     public void Hit(float damage)
     {
         _hp -= damage;
-        HealthBar.AdjustCurrentHP(-_hp);
+        HealthBar.fillAmount = _hp * 0.01f;
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
+            StartCoroutine(Die());
+            StartCoroutine(GameOver());
         }
     }
 
     public void HitTrapFloor(float damage)
     {
         _hp -= damage;
-        HealthBar.AdjustCurrentHP(-_hp);
+        HealthBar.fillAmount = _hp * 0.01f;
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
+            StartCoroutine(Die());
+            StartCoroutine(GameOver());
         }
     }
 
     public void HitTrapWall(float damage)
     {
         _hp -= damage;
-        HealthBar.AdjustCurrentHP(-_hp);
+        HealthBar.fillAmount = _hp * 0.01f;
         if (_hp <= 0)
         {
             _anim.SetTrigger("Die");
+            StartCoroutine(Die());
+            StartCoroutine(GameOver());
         }
             
     }
@@ -158,7 +166,7 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
     public void Health(float health)
     {
         _hp += health;
-        HealthBar.AdjustCurrentHP(_hp);
+        HealthBar.fillAmount = _hp * 0.01f;
     }
 
     public void Ammo(float ammo)
@@ -219,5 +227,25 @@ public class Player : MonoBehaviour, ITakeDamage, IHealthAmmo
         if (collision.collider.tag == "Ground")
             _isGround = false;
     }
+
+    private IEnumerator Die()
+    {
+        yield return new WaitForSeconds(3f);
+
+        gameObject.SetActive(false);
+
+        yield return null;
+    }
+
+    private IEnumerator GameOver()
+    {
+        _gameOver.gameObject.SetActive(true);
+
+        SceneManager.LoadScene(0);
+
+        yield return null;
+    }
+
+   
 
 }
